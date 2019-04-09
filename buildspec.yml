@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo install step...
+  pre_build:
+    commands:
+      - echo logging in to AWS ECR...
+      - $(aws ecr get-login --no-include-email --region us-west-2)
+  build:
+    commands:
+      - echo build Docker image on `date`
+      - cd src
+      - docker build -t dockerpush_test:latest .
+      - docker tag dockerpush_test:latest 612659227769.dkr.ecr.eu-west-2.amazonaws.com/dockerpush_test:latest
+  post_build:
+    commands:
+      - echo build Docker image complete `date`
+      - echo push latest Docker images to ECR...
+      - docker push 612659227769.dkr.ecr.eu-west-2.amazonaws.com/dockerpush_test:latest
