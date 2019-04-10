@@ -17,4 +17,5 @@ phases:
     commands:
       - echo build Docker image complete `date`
       - echo push latest Docker images to ECR...
+      - eval $(aws ecr get-login --no-include-email | sed ‘s|https://||’)
       - docker push 612659227769.dkr.ecr.eu-west-2.amazonaws.com/dockerpush_test:latest
